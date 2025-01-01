@@ -15,7 +15,7 @@ function love.conf(t)
 	t.console               = false
 	t.accelerometerjoystick = false
 	t.externalstorage       = false
-	t.gammacorrect          = false
+	t.graphics.gammacorrect = false
 	t.highdpi			    = false
 
 	t.audio.mic             = false
@@ -23,8 +23,8 @@ function love.conf(t)
 
 	t.window.title          = "Untitled"
 	t.window.icon           = nil
-	t.window.width          = 800
-	t.window.height         = 600
+	t.window.width          = 640*2
+	t.window.height         = 360*2
 	t.window.borderless     = false
 	t.window.resizable      = false
 	t.window.minwidth       = 1
