@@ -59,16 +59,6 @@ local function draw_town_ui()
     town:draw()
 end
 
-local points = {
-    66, 53,
-    108, 257,
-    108*3, -60,
-    108*5, 195*2,
-    108*6, 127
-}
-local curve = love.math.newBezierCurve(points)
-
-local d = 0
 local modes = {
     "town",
     "dungeon"
@@ -92,10 +82,12 @@ function love.draw()
             end
 
             love.graphics.print(member.name, 10, 14 * i)
-            spritesheet:draw_sprite("atb_bar", 150, 14 * i)
+            love.graphics.printf(("%d/%d"):format(member.health, member.max_health), 100, 14 * i, 50, "right")
+
+            spritesheet:draw_sprite("AtbBar", 150, 14 * i)
 
             love.graphics.setScissor(150, 14 * i, 64 * (member.atb_bar / 100), 8)
-            spritesheet:draw_sprite("atb_barFull", 150, 14 * i)
+            spritesheet:draw_sprite("AtbBarFull", 150, 14 * i)
             love.graphics.setScissor()
         end
 
@@ -129,8 +121,6 @@ function love.update(dt)
     if paused then
         return
     end
-
-    d = d + love.timer.getDelta() / 5
 
     day_time = day_time + (dt / 30)
 

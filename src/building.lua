@@ -10,14 +10,17 @@ local building = class({
 function building:new(name)
     self.name = name or "Unnamed building"
     self.max_slots = 4
-    self.stock_type = "weapon"
     self.slots = {}
     self.width = 170
     self.height = self.max_slots * 74 + 40
 end
 
-function building:setSlot(slot, item, quantity, price)
+function building:set_slot(slot, item, quantity, price)
     assert(slot >= 1 and slot <= self.max_slots, "Invalid slot number")
+
+    local item = functional.filter(items, function(i)
+        return i.id == item
+    end)[1]
 
     self.slots[slot] = {
         item = item,
@@ -40,11 +43,9 @@ function building:draw(x, y)
         message_window.draw_box(x + 12, y, self.width - 24, slot_height)
 
         if slot then
-            local base_item = items[self.stock_type][slot.item]
+            spritesheet:draw_sprite(slot.item.icon, x + 24, y + 12, 0, 1, 1)
 
-            spritesheet:draw_sprite(base_item.icon, x + 24, y + 12, 0, 1, 1)
-
-            love.graphics.print(("%s x %d"):format(base_item.name, slot.quantity), x + 12 + 36, y + 12)
+            love.graphics.print(("%s x %d"):format(slot.item.name, slot.quantity), x + 12 + 36, y + 12)
             love.graphics.printf(("%d"):format(slot.price), x + 12, y + 36, self.width - 36, "right")
         end
 

@@ -9,7 +9,7 @@ function town:new(name)
     self.money = 1000
 
     local weapons_shop = Building("Weapons")
-    weapons_shop:setSlot(1, "iron_sword", 1, 50)
+    weapons_shop:set_slot(1, "iron_sword", 1, 50)
 
     self.buildings = {
         Building("Inn"),

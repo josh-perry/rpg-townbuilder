@@ -4,9 +4,9 @@ local dungeon = class({
     name = "dungeon"
 })
 
-function dungeon:new(name, dangerLevel)
+function dungeon:new(name, danger_level)
     self.name = name or "Unnamed dungeon"
-    self.dangerLevel = dangerLevel or 1
+    self.danger_level = danger_level or 1
     self.rooms = {
         dungeon_room(self),
         dungeon_room(self),

@@ -7,8 +7,8 @@ function party_member:new(job, name, level)
     self.name = name or "Unnamed hero"
     self.level = level or 1
 
-    self.maxHealth = 10
-    self.health = self.maxHealth
+    self.max_health = 10
+    self.health = self.max_health
 
     self.agility = love.math.random(7, 15)
     self.power = love.math.random(5, 10)
