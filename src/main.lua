@@ -193,8 +193,13 @@ pubsub:subscribe("Dungeon:Message", function(dungeon, message)
     add_message(dungeon, message)
 end)
 
-pubsub:subscribe("Dungeon:Complete", function(dungeon)
+pubsub:subscribe("Dungeon:Complete", function(dungeon, party)
     add_message(dungeon, "Dungeon complete!")
+
+    add_message(dungeon, "Escaped with: ")
+    for _, v in ipairs(party.loot) do
+        add_message(dungeon, v.name)
+    end
 end)
 
 pubsub:subscribe("Dungeon:party_memberDeath", function(dungeon, party_member)

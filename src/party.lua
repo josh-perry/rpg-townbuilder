@@ -1,18 +1,24 @@
-local party = class({
+local Party = class({
     name = "party"
 })
 
-function party:new(members)
+function Party:new(members)
     self.members = members or {}
 
     for _, member in ipairs(self.members) do
         member.party = self
     end
+
+    self.loot = {}
 end
 
-function party:enter_dungeon(dungeon)
+function Party:enter_dungeon(dungeon)
     self.dungeon = dungeon
     self.room_index = 1
 end
 
-return party
+function Party:add_loot(item)
+    table.insert(self.loot, item)
+end
+
+return Party

@@ -84,21 +84,22 @@ local dungeon_runningCoroutine = coroutine.create(function(party)
             pubsub:publish("Dungeon:Message", party.dungeon, ("Entering room %i..."):format(party.room_index))
 
             while true do
-                local enemies = room.enemies
-
-                if not enemies or #enemies == 0 then
-                    break
-                end
-
-                fight_enemies(party, enemies)
+                fight_enemies(party, room.enemies)
 
                 if functional.all(party.members, function(e) return not e:is_alive() end) then
                     return
                 end
 
+                for _, item in ipairs(room.loot) do
+                    pubsub:publish("Dungeon:Message", party.dungeon, ("The party finds {{%s}}%s!"):format(item.icon, item.name))
+
+                    party:add_loot(item)
+                end
+
+                wait(2)
+
                 -- Move to next room
                 party.room_index = party.room_index + 1
-                wait(2)
                 break
             end
         end
@@ -110,7 +111,7 @@ local dungeon_runningCoroutine = coroutine.create(function(party)
         coroutine.yield("RoomComplete")
     end
 
-    pubsub:publish("Dungeon:Complete", party.dungeon)
+    pubsub:publish("Dungeon:Complete", party.dungeon, party)
 end)
 
 return dungeon_runningCoroutine

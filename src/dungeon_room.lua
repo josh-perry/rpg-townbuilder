@@ -1,4 +1,5 @@
 local spritesheet = require("spritesheet")
+local items = require("data.items")
 
 local Enemy = require("enemy")
 
@@ -6,10 +7,25 @@ local dungeon_room = class({
     name = "dungeon_room"
 })
 
+local function pick_item(danger_level)
+    local eligible_items = functional.filter(items, function(item)
+        return item.min_danger_level <= danger_level
+    end)
+
+    local eligible_item_weightings = functional.map(eligible_items, function(item)
+        return item.rarity
+    end)
+
+    return table.pick_weighted_random(eligible_items, eligible_item_weightings)
+end
+
 function dungeon_room:new(dungeon, enemies, loot)
     self.dungeon = dungeon
     self.enemies = enemies or { Enemy() }
-    self.loot = loot or {}
+    self.loot = loot or {
+        pick_item(dungeon.danger_level),
+        pick_item(dungeon.danger_level)
+    }
 end
 
 function dungeon_room:draw_preview(x, y)
